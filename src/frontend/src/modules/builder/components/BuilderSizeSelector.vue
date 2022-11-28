@@ -6,7 +6,10 @@
       <div class="sheet__content diameter">
         <label v-for="size in sizes" :key="size.id" :class="`diameter__input diameter__input--${
                   SIZES[size.id].name}`">
-          <input type="radio" name="diameter" :value="SIZES[size.id].name" class="visually-hidden">
+          <input type="radio"
+                 name="diameter"
+                 :value="SIZES[size.id].name"
+                 class="visually-hidden">
           <span>{{ size.name }}</span>
         </label>
       </div>
@@ -15,8 +18,19 @@
 </template>
 
 <script>
+import { SIZES } from "@/common/constants";
 export default {
-  name: "BuilderSizeSelector"
+  name: "BuilderSizeSelector",
+  props: {
+    sizes: {
+      type: Array
+    }
+  },
+  data() {
+    return {
+      SIZES,
+    }
+  },
 }
 </script>
 

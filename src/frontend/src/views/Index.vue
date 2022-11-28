@@ -18,7 +18,7 @@
 
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
-          <BuilderDoughSelector :doughs="doughs" @change="selectedDough = $event"/>
+          <BuilderDoughSelector :doughs="doughs" :selectedDough="selectedDough"  @change="selectedDough = $event"/>
           <BuilderSizeSelector/>
           <BuilderIngredientsSelector/>
 
