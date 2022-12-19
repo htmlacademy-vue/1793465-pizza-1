@@ -9,12 +9,14 @@
           v-for="dough in doughs"
           :key="dough.id"
           :class="`dough__input dough__input--${DOUGHS[dough.name].name}`">
-          <input type="radio" name="dought"
-                 :value="DOUGHS[dough.name].name"
-                 class="visually-hidden"
-                 :checked="dough.id === selectedDough"
-                 @change="$emit('change', dough.id)"
-          >
+          <input
+            type="radio"
+            name="dought"
+            :value="DOUGHS[dough.name].name"
+            class="visually-hidden"
+            :checked="dough.id === selectedDough"
+            @change="$emit('change', dough)"
+          />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
         </label>
@@ -29,22 +31,18 @@ export default {
   name: "BuilderDoughSelector",
   props: {
     doughs: {
-      type: Array
+      type: Array,
     },
     selectedDough: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   data() {
     return {
       DOUGHS,
-    }
+    };
   },
-}
+};
 </script>
 
-
-
-<style scoped>
-
-</style>
+<style scoped></style>

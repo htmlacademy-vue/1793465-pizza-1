@@ -24,7 +24,7 @@ export default {
   props: {
     sizes: {
       type: Array
-    }
+    },
   },
   data() {
     return {

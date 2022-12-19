@@ -8,8 +8,18 @@
         <div class="ingredients__sauce">
           <p>Основной соус:</p>
 
-          <label v-for="sauce in sauces" :key="sauce.id" class="radio ingredients__input">
-            <input type="radio" name="sauce" :value="SAUCES[sauce.name].name" checked>
+          <label
+            v-for="sauce in sauces"
+            :key="sauce.id"
+            class="radio ingredients__input"
+          >
+            <input
+              type="radio"
+              name="sauce"
+              :value="SAUCES[sauce.name].name"
+              :checked="sauce.id === selectedSauce"
+              @change="$emit('change', sauce)"
+            />
             <span>{{ sauce.name }}</span>
           </label>
         </div>
@@ -18,15 +28,37 @@
           <p>Начинка:</p>
 
           <ul class="ingredients__list">
-            <li v-for="ingredient in ingredients" :key="ingredient.id" class="ingredients__item">
-              <span :class="`filling filling--${INGREDIENTS[ingredient.name].name}`">{{ ingredient.name }}</span>
+            <li
+              v-for="(ingredient, index) in ingredients"
+              :key="ingredient.id"
+              class="ingredients__item"
+            >
+              <span
+                :class="`filling filling--${INGREDIENTS[ingredient.name].name}`"
+                >{{ ingredient.name }}</span
+              >
 
               <div class="counter counter--orange ingredients__counter">
-                <button type="button" class="counter__button counter__button--minus" disabled>
+                <button
+                  type="button"
+                  class="counter__button counter__button--minus"
+                  :disabled="arrIngredients[index] === 0"
+                  @click="arrIngredients[index]--"
+                >
                   <span class="visually-hidden">Меньше</span>
                 </button>
-                <input type="text" name="counter" class="counter__input" value="0">
-                <button type="button" class="counter__button counter__button--plus">
+                <input
+                  type="text"
+                  name="counter"
+                  class="counter__input"
+                  value="0"
+                />
+                <button
+                  type="button"
+                  class="counter__button counter__button--plus"
+                  :disabled="arrIngredients[index] === 3"
+                  @click="arrIngredients[index]++"
+                >
                   <span class="visually-hidden">Больше</span>
                 </button>
               </div>
@@ -41,8 +73,33 @@
 </template>
 
 <script>
+import { INGREDIENTS, SAUCES } from "@/common/constants";
+
 export default {
-  name: "BuilderIngredientsSelector"
+  name: "BuilderIngredientsSelector",
+  props: {
+    ingredients: {
+      type: Array,
+    },
+    sauces: {
+      type: Array,
+    },
+    selectedSauce: {
+      type: Number,
+    },
+  },
+  data() {
+    return {
+      INGREDIENTS,
+      SAUCES,
+      arrIngredients: new Array(this.ingredients.length).fill(0),
+    };
+  },
+  watch: {
+    arrIngredients(arrIngredients) {
+      this.$emit('changeCount', arrIngredients)
+    },
+  }
 }
 </script>
 
