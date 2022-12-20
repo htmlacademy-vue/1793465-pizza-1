@@ -23,13 +23,17 @@
             :selectedDough="selectedDough"
             @change="selectedDough = $event"
           />
-          <BuilderSizeSelector :sizes="sizes" />
+          <BuilderSizeSelector
+            :sizes="sizes"
+            :selectedSize="selectedSize"
+            @change="selectedSize = $event"
+          />
           <BuilderIngredientsSelector
             :ingredients="ingredients"
             :sauces="sauces"
             :selectedSauce="selectedSauce"
             @change="selectedSauce = $event"
-            @changeCount="arrIngredients"
+            @changeCount="setIngredientsSum"
           />
 
           <div class="content__pizza">
@@ -42,7 +46,7 @@
               :selectedDough="doughName"
             />
             <div class="content__result">
-              <p>Итого: 0 ₽</p>
+              <p>Итого: {{ finishSum }} ₽</p>
               <button type="button" class="button" disabled>Готовьте!</button>
             </div>
           </div>
@@ -80,27 +84,34 @@ export default {
       SAUCES,
       SIZES,
       INGREDIENTS,
-      selectedDough: this.doughs[0],
-      selectedSauce: this.sauces[0],
+      selectedDough: pizza.dough[0],
+      selectedSauce: pizza.sauces[0],
       sauceSum: 50,
       ingredientsSum: 0,
-      multiplier: 1,
-      ingredientsCount: new Array(this.ingredients.length).fill(0),
+      selectedSize: pizza.sizes[0],
+      ingredientsCount: new Array(pizza.ingredients.length).fill(0),
     };
   },
   computed: {
     sauceName() {
-      const sauce = this.sauces.find((elem) => elem.id === this.selectedSauce);
-      return SAUCES[sauce.name].name;
+      return SAUCES[this.selectedSauce.name].name;
     },
     doughName() {
-      const dough = this.doughs.find((elem) => elem.id === this.selectedDough);
-      return DOUGHS[dough.name].name;
+      return DOUGHS[this.selectedDough.name].name;
     },
     finishSum() {
       return (
-        (this.selectedSauce.price + this.selectedDough.price + this.ingredientsSum) * this.multiplier
+        (this.selectedSauce.price + this.selectedDough.price + this.ingredientsSum) * this.selectedSize.multiplier
       );
+    },
+  },
+  methods: {
+    setIngredientsSum(arrIngredients) {
+      let sum = 0;
+      arrIngredients.forEach((item, index) => {
+        sum += pizza.ingredients[index].price * item;
+      });
+      this.ingredientsSum = sum;
     },
   },
 };

@@ -14,7 +14,7 @@
             name="dought"
             :value="DOUGHS[dough.name].name"
             class="visually-hidden"
-            :checked="dough.id === selectedDough"
+            :checked="dough.id === selectedDough.id"
             @change="$emit('change', dough)"
           />
           <b>{{ dough.name }}</b>
@@ -34,7 +34,7 @@ export default {
       type: Array,
     },
     selectedDough: {
-      type: Number,
+      type: Object,
     },
   },
   data() {

@@ -7,9 +7,12 @@
         <label v-for="size in sizes" :key="size.id" :class="`diameter__input diameter__input--${
                   SIZES[size.id].name}`">
           <input type="radio"
-                 name="diameter"
-                 :value="SIZES[size.id].name"
-                 class="visually-hidden">
+            name="diameter"
+            :value="SIZES[size.id].name"
+            class="visually-hidden"
+            :checked="size.id === selectedSize.id"
+            @change="$emit('change', size)"
+          />
           <span>{{ size.name }}</span>
         </label>
       </div>
@@ -23,8 +26,11 @@ export default {
   name: "BuilderSizeSelector",
   props: {
     sizes: {
-      type: Array
+      type: Array,
     },
+    selectedSize: {
+      type: Object,
+    }
   },
   data() {
     return {

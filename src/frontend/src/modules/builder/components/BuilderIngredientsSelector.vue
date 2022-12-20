@@ -17,7 +17,7 @@
               type="radio"
               name="sauce"
               :value="SAUCES[sauce.name].name"
-              :checked="sauce.id === selectedSauce"
+              :checked="sauce.id === selectedSauce.id"
               @change="$emit('change', sauce)"
             />
             <span>{{ sauce.name }}</span>
@@ -43,7 +43,9 @@
                   type="button"
                   class="counter__button counter__button--minus"
                   :disabled="arrIngredients[index] === 0"
-                  @click="arrIngredients[index]--"
+                  @click="
+                    $set(arrIngredients, index, arrIngredients[index] - 1)
+                  "
                 >
                   <span class="visually-hidden">Меньше</span>
                 </button>
@@ -51,13 +53,15 @@
                   type="text"
                   name="counter"
                   class="counter__input"
-                  value="0"
+                  :value="arrIngredients[index]"
                 />
                 <button
                   type="button"
                   class="counter__button counter__button--plus"
                   :disabled="arrIngredients[index] === 3"
-                  @click="arrIngredients[index]++"
+                  @click="
+                    $set(arrIngredients, index, arrIngredients[index] + 1)
+                  "
                 >
                   <span class="visually-hidden">Больше</span>
                 </button>
@@ -85,7 +89,7 @@ export default {
       type: Array,
     },
     selectedSauce: {
-      type: Number,
+      type: Object,
     },
   },
   data() {
@@ -96,13 +100,14 @@ export default {
     };
   },
   watch: {
-    arrIngredients(arrIngredients) {
-      this.$emit('changeCount', arrIngredients)
+    arrIngredients: {
+      handler(arrIngredients) {
+        this.$emit("changeCount", arrIngredients);
+      },
+      deep: true,
     },
-  }
-}
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
