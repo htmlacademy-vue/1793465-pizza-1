@@ -3,7 +3,12 @@
     <header class="header">
       <div class="header__logo">
         <a href="#" class="logo">
-          <img src="@/assets/img/logo.svg" alt="V!U!E! Pizza logo" width="90" height="40">
+          <img
+            src="@/assets/img/logo.svg"
+            alt="V!U!E! Pizza logo"
+            width="90"
+            height="40"
+          />
         </a>
       </div>
       <div class="header__cart">
@@ -15,7 +20,6 @@
     </header>
     <main class="content">
       <form action="#" method="post">
-
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
           <BuilderDoughSelector
@@ -33,17 +37,22 @@
             :sauces="sauces"
             :selectedSauce="selectedSauce"
             @change="selectedSauce = $event"
-            @changeCount="setIngredientsSum"
+            @changeCount="setIngredientsCounts"
           />
 
           <div class="content__pizza">
             <label class="input">
               <span class="visually-hidden">Название пиццы</span>
-              <input type="text" name="pizza_name" placeholder="Введите название пиццы">
+              <input
+                type="text"
+                name="pizza_name"
+                placeholder="Введите название пиццы"
+              />
             </label>
             <BuilderPizzaView
               :selectedSauce="sauceName"
               :selectedDough="doughName"
+              :ingredientsCount="ingredientsCount"
             />
             <div class="content__result">
               <p>Итого: {{ finishSum }} ₽</p>
@@ -64,7 +73,7 @@ import { INGREDIENTS, SAUCES, DOUGHS, SIZES } from "@/common/constants";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
-import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView.vue;";
+import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 
 export default {
   name: "index",
@@ -87,7 +96,6 @@ export default {
       selectedDough: pizza.dough[0],
       selectedSauce: pizza.sauces[0],
       sauceSum: 50,
-      ingredientsSum: 0,
       selectedSize: pizza.sizes[0],
       ingredientsCount: new Array(pizza.ingredients.length).fill(0),
     };
@@ -104,14 +112,17 @@ export default {
         (this.selectedSauce.price + this.selectedDough.price + this.ingredientsSum) * this.selectedSize.multiplier
       );
     },
-  },
-  methods: {
-    setIngredientsSum(arrIngredients) {
+    ingredientsSum() {
       let sum = 0;
-      arrIngredients.forEach((item, index) => {
+      this.ingredientsCount.forEach((item, index) => {
         sum += pizza.ingredients[index].price * item;
       });
-      this.ingredientsSum = sum;
+      return sum;
+    },
+  },
+  methods: {
+    setIngredientsCounts(arrIngredients) {
+      this.ingredientsCount = arrIngredients;
     },
   },
 };
