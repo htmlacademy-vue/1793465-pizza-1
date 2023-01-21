@@ -31,7 +31,15 @@ export default {
       this.ingredientsCount.forEach((elem, index) => {
         if (elem > 0) {
           const { name } = pizza.ingredients[index];
-          arrIngredients.push("pizza__filling pizza__filling--" + INGREDIENTS[name].name);
+          let classes =
+            "pizza__filling pizza__filling--" + INGREDIENTS[name].name;
+          if (elem === 2) {
+            classes += " pizza__filling--second";
+          }
+          if (elem === 3) {
+            classes += " pizza__filling--third";
+          }
+          arrIngredients.push(classes);
         }
       });
       return arrIngredients;

@@ -12,7 +12,7 @@
         </a>
       </div>
       <div class="header__cart">
-        <a href="#">0 ₽</a>
+        <a href="#">{{ sumInHeader }} ₽</a>
       </div>
       <div class="header__user">
         <a href="#" class="header__login"><span>Войти</span></a>
@@ -44,6 +44,7 @@
             <label class="input">
               <span class="visually-hidden">Название пиццы</span>
               <input
+                v-model="pizzaName"
                 type="text"
                 name="pizza_name"
                 placeholder="Введите название пиццы"
@@ -56,7 +57,7 @@
             />
             <div class="content__result">
               <p>Итого: {{ finishSum }} ₽</p>
-              <button type="button" class="button" disabled>Готовьте!</button>
+              <button type="button" class="button" :disabled="isButtonDisabled" @click="sumInHeader = finishSum">Готовьте!</button>
             </div>
           </div>
 
@@ -98,6 +99,8 @@ export default {
       sauceSum: 50,
       selectedSize: pizza.sizes[0],
       ingredientsCount: new Array(pizza.ingredients.length).fill(0),
+      pizzaName: "",
+      sumInHeader: 0
     };
   },
   computed: {
@@ -109,7 +112,10 @@ export default {
     },
     finishSum() {
       return (
-        (this.selectedSauce.price + this.selectedDough.price + this.ingredientsSum) * this.selectedSize.multiplier
+        (this.selectedSauce.price +
+          this.selectedDough.price +
+          this.ingredientsSum) *
+        this.selectedSize.multiplier
       );
     },
     ingredientsSum() {
@@ -118,6 +124,13 @@ export default {
         sum += pizza.ingredients[index].price * item;
       });
       return sum;
+    },
+    isButtonDisabled() {
+      const ingSum = this.ingredientsCount.reduce((sum, item) => {
+        return sum + item;
+      }, 0);
+
+      return ingSum === 0 || this.pizzaName.length === 0;
     },
   },
   methods: {
