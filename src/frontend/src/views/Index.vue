@@ -34,10 +34,12 @@
           />
           <BuilderIngredientsSelector
             :ingredients="ingredients"
+            :ingredientsCount="ingredientsCount"
             :sauces="sauces"
             :selectedSauce="selectedSauce"
             @change="selectedSauce = $event"
-            @changeCount="setIngredientsCounts"
+            @decrement="decrement"
+            @increment="increment"
           />
 
           <div class="content__pizza">
@@ -54,6 +56,7 @@
               :selectedSauce="sauceName"
               :selectedDough="doughName"
               :ingredientsCount="ingredientsCount"
+              @incrementCount="incrementIngredientCount"
             />
             <div class="content__result">
               <p>Итого: {{ finishSum }} ₽</p>
@@ -75,6 +78,7 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
+import Vue from "vue";
 
 export default {
   name: "index",
@@ -134,8 +138,21 @@ export default {
     },
   },
   methods: {
-    setIngredientsCounts(arrIngredients) {
-      this.ingredientsCount = arrIngredients;
+    // setIngredientsCounts(arrIngredients) {
+    //   console.log(this.ingredientsCount);
+    //   this.ingredientsCount = arrIngredients;
+    // },
+    incrementIngredientCount(index) {
+      Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
+    },
+    decrement(index) {
+      console.log("decrement");
+      Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] - 1);
+
+    },
+    increment(index) {
+      console.log("increment ind");
+      Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
     },
   },
 };

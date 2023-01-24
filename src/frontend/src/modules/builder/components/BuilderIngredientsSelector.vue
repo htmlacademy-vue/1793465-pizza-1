@@ -34,6 +34,8 @@
               class="ingredients__item"
             >
               <span
+                draggable="true"
+                @dragstart="dragIngredient(index, $event)"
                 :class="`filling filling--${INGREDIENTS[ingredient.name].name}`"
                 >{{ ingredient.name }}</span
               >
@@ -42,10 +44,8 @@
                 <button
                   type="button"
                   class="counter__button counter__button--minus"
-                  :disabled="arrIngredients[index] === 0"
-                  @click="
-                    $set(arrIngredients, index, arrIngredients[index] - 1)
-                  "
+                  :disabled="ingredientsCount[index] === 0"
+                  @click="decrement(index)"
                 >
                   <span class="visually-hidden">Меньше</span>
                 </button>
@@ -53,15 +53,13 @@
                   type="text"
                   name="counter"
                   class="counter__input"
-                  :value="arrIngredients[index]"
+                  :value="ingredientsCount[index]"
                 />
                 <button
                   type="button"
                   class="counter__button counter__button--plus"
-                  :disabled="arrIngredients[index] === 3"
-                  @click="
-                    $set(arrIngredients, index, arrIngredients[index] + 1)
-                  "
+                  :disabled="ingredientsCount[index] === 3"
+                  @click="increment(index)"
                 >
                   <span class="visually-hidden">Больше</span>
                 </button>
@@ -91,20 +89,25 @@ export default {
     selectedSauce: {
       type: Object,
     },
+    ingredientsCount: {
+      type: Array,
+    },
   },
   data() {
     return {
       INGREDIENTS,
       SAUCES,
-      arrIngredients: new Array(this.ingredients.length).fill(0),
     };
   },
-  watch: {
-    arrIngredients: {
-      handler(arrIngredients) {
-        this.$emit("changeCount", arrIngredients);
-      },
-      deep: true,
+  methods: {
+    dragIngredient(index, { dataTransfer }) {
+      dataTransfer.setData("ingredient", index);
+    },
+    decrement(index) {
+      this.$emit("decrement", index);
+    },
+    increment(index) {
+      this.$emit("increment", index);
     },
   },
 };

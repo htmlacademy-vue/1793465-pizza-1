@@ -1,6 +1,10 @@
 <template>
   <div class="content__constructor">
-    <div :class="`pizza pizza--foundation--${selectedDough}-${selectedSauce}`">
+    <div
+      :class="`pizza pizza--foundation--${selectedDough}-${selectedSauce}`"
+      @drop="dropIngredient"
+      @dragover.prevent
+    >
       <div class="pizza__wrapper">
         <div :key="item" v-for="item in ingredientClasses" :class="item"></div>
       </div>
@@ -43,6 +47,12 @@ export default {
         }
       });
       return arrIngredients;
+    },
+  },
+  methods: {
+    dropIngredient({ dataTransfer }) {
+      const data = dataTransfer.getData("ingredient");
+      this.$emit("incrementCount", data);
     },
   },
 };
