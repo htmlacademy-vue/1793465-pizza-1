@@ -104,7 +104,7 @@ export default {
       selectedSize: pizza.sizes[0],
       ingredientsCount: new Array(pizza.ingredients.length).fill(0),
       pizzaName: "",
-      sumInHeader: 0
+      sumInHeader: 0,
     };
   },
   computed: {
@@ -146,12 +146,9 @@ export default {
       Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
     },
     decrement(index) {
-      console.log("decrement");
       Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] - 1);
-
     },
     increment(index) {
-      console.log("increment ind");
       Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
     },
   },
