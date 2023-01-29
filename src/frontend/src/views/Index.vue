@@ -138,10 +138,6 @@ export default {
     },
   },
   methods: {
-    // setIngredientsCounts(arrIngredients) {
-    //   console.log(this.ingredientsCount);
-    //   this.ingredientsCount = arrIngredients;
-    // },
     incrementIngredientCount(index) {
       Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
     },
