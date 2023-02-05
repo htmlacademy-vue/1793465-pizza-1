@@ -1,13 +1,20 @@
 <template>
-  <Index />
+  <AppLayout :auth="auth">
+    <router-view />
+  </AppLayout>
 </template>
 
 <script>
-import Index from "@/views/Index.vue";
+import AppLayout from "@/layouts/AppLayout";
 export default {
   name: "App",
   components: {
-    Index,
+    AppLayout,
+  },
+  data() {
+    return {
+      auth: false,
+    };
   },
 };
 </script>
