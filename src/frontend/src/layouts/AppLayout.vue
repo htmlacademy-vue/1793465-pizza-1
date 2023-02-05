@@ -1,10 +1,5 @@
 <template>
-  <component
-    :is="layout"
-    :auth="auth"
-    @onCook="onCook"
-    :sumInHeader="sumInHeader"
-  >
+  <component :is="layout" :auth="auth" :sum="sum">
     <slot />
   </component>
 </template>
@@ -19,13 +14,8 @@ export default {
       type: Boolean,
       required: true,
     },
-    sumInHeader: {
+    sum: {
       type: Number,
-    },
-  },
-  methods: {
-    onCook(sumInHeader) {
-      this.sumInHeader = sumInHeader;
     },
   },
   computed: {

@@ -1,6 +1,6 @@
 <template>
-  <AppLayout :auth="auth">
-    <router-view />
+  <AppLayout :auth="auth" :sum="sum">
+    <router-view @changeValue="sum = $event"/>
   </AppLayout>
 </template>
 
@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       auth: false,
+      sum: 0,
     };
   },
 };
