@@ -1,13 +1,21 @@
 <template>
-  <Index />
+  <AppLayout :auth="auth" :sum="sum">
+    <router-view @changeValue="sum = $event"/>
+  </AppLayout>
 </template>
 
 <script>
-import Index from "@/views/Index.vue";
+import AppLayout from "@/layouts/AppLayout";
 export default {
   name: "App",
   components: {
-    Index,
+    AppLayout,
+  },
+  data() {
+    return {
+      auth: false,
+      sum: 0,
+    };
   },
 };
 </script>
