@@ -4,11 +4,7 @@
       <form action="#" method="post">
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
-          <BuilderDoughSelector
-            :doughs="doughs"
-            :selectedDough="selectedDough"
-            @change="selectedDough = $event"
-          />
+          <BuilderDoughSelector/>
           <BuilderSizeSelector
             :sizes="sizes"
             :selectedSize="selectedSize"
@@ -38,7 +34,7 @@
               :selectedSauce="sauceName"
               :selectedDough="doughName"
               :ingredientsCount="ingredientsCount"
-              @incrementCount="incrementIngredientCount"
+              @incrementCount="increment"
             />
             <div class="content__result">
               <p>Итого: {{ finishSum }} ₽</p>
@@ -60,6 +56,7 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
+import { mapState } from 'vuex'
 import Vue from "vue";
 
 export default {
@@ -72,7 +69,6 @@ export default {
   },
   data() {
     return {
-      doughs: pizza.dough,
       ingredients: pizza.ingredients,
       sauces: pizza.sauces,
       sizes: pizza.sizes,
@@ -80,7 +76,6 @@ export default {
       SAUCES,
       SIZES,
       INGREDIENTS,
-      selectedDough: pizza.dough[0],
       selectedSauce: pizza.sauces[0],
       sauceSum: 50,
       selectedSize: pizza.sizes[0],
@@ -118,11 +113,9 @@ export default {
 
       return ingSum === 0 || this.pizzaName.length === 0;
     },
+    ...mapState("Builder", ["selectedDough"]),
   },
   methods: {
-    incrementIngredientCount(index) {
-      Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
-    },
     decrement(index) {
       Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] - 1);
     },

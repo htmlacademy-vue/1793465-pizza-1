@@ -6,7 +6,7 @@
 
       <div class="sheet__content dough">
         <label
-          v-for="dough in doughs"
+          v-for="dough in $store.state.doughs"
           :key="dough.id"
           :class="`dough__input dough__input--${DOUGHS[dough.name].name}`">
           <input
@@ -14,8 +14,8 @@
             name="dought"
             :value="DOUGHS[dough.name].name"
             class="visually-hidden"
-            :checked="dough.id === selectedDough.id"
-            @change="$emit('change', dough)"
+            :checked="dough.id === $store.state.selectedDough.id"
+            @change="$store.commit('setSelectedDough', dough)"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -29,14 +29,6 @@
 import { DOUGHS } from "@/common/constants";
 export default {
   name: "BuilderDoughSelector",
-  props: {
-    doughs: {
-      type: Array,
-    },
-    selectedDough: {
-      type: Object,
-    },
-  },
   data() {
     return {
       DOUGHS,
