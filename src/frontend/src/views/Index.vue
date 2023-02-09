@@ -1,23 +1,5 @@
 <template>
   <div>
-    <header class="header">
-      <div class="header__logo">
-        <a href="#" class="logo">
-          <img
-            src="@/assets/img/logo.svg"
-            alt="V!U!E! Pizza logo"
-            width="90"
-            height="40"
-          />
-        </a>
-      </div>
-      <div class="header__cart">
-        <a href="#">{{ sumInHeader }} ₽</a>
-      </div>
-      <div class="header__user">
-        <a href="#" class="header__login"><span>Войти</span></a>
-      </div>
-    </header>
     <main class="content">
       <form action="#" method="post">
         <div class="content__wrapper">
@@ -138,10 +120,6 @@ export default {
     },
   },
   methods: {
-    // setIngredientsCounts(arrIngredients) {
-    //   console.log(this.ingredientsCount);
-    //   this.ingredientsCount = arrIngredients;
-    // },
     incrementIngredientCount(index) {
       Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
     },
@@ -150,6 +128,11 @@ export default {
     },
     increment(index) {
       Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
+    },
+  },
+  watch: {
+    sumInHeader(newValue) {
+      this.$emit('changeValue', newValue);
     },
   },
 };
