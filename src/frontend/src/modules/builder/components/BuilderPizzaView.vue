@@ -54,6 +54,7 @@ export default {
   methods: {
     dropIngredient({ dataTransfer }) {
       const data = dataTransfer.getData("ingredient");
+      console.log(data);
       if (this.ingredientsCount[data] !== 3) {
         this.$store.commit("Builder/IncrementIngredientsCount", data);
       }

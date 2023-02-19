@@ -1,6 +1,12 @@
-const state = {};
+const state = {
+  pizzas: [],
+};
 const getters = {};
-const mutations = {};
+const mutations = {
+  addPizza(state, pizza) {
+    state.pizzas.push(pizza);
+  },
+};
 const actions = {};
 
 export default {

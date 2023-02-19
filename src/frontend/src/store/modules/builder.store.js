@@ -49,6 +49,13 @@ const mutations = {
   setPizzaName(state, pizzaName) {
     state.pizzaName = pizzaName;
   },
+  clearState(state) {
+    state.pizzaName = "";
+    state.selectedDough = pizza.dough[0];
+    state.selectedSauce = pizza.sauces[0];
+    state.selectedSize = pizza.sizes[0];
+    state.ingredientsCount = new Array(pizza.ingredients.length).fill(0);
+  },
 };
 const actions = {};
 

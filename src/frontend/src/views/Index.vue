@@ -12,10 +12,11 @@
             <label class="input">
               <span class="visually-hidden">Название пиццы</span>
               <input
-                v-model="pizzaName"
+                :value="pizzaName"
                 type="text"
                 name="pizza_name"
                 placeholder="Введите название пиццы"
+                @input="$store.commit('Builder/setPizzaName', $event.target.value)"
               />
             </label>
             <BuilderPizzaView />
@@ -25,7 +26,7 @@
                 type="button"
                 class="button"
                 :disabled="isButtonDisabled"
-                @click="sumInHeader = finishSum"
+                @click="cookPizza"
               >
                 Готовьте!
               </button>
@@ -59,9 +60,22 @@ export default {
       SAUCES,
       SIZES,
       INGREDIENTS,
-      pizzaName: "",
       sumInHeader: 0,
     };
+  },
+  methods: {
+    cookPizza() {
+      this.sumInHeader = this.finishSum;
+      const pizza = {
+        selectedDough: this.selectedDough,
+        selectedSauce: this.selectedSauce,
+        ingredientsCount: this.ingredientsCount,
+        selectedSize: this.selectedSize,
+        pizzaName: this.pizzaName,
+      };
+      this.$store.commit("Cart/addPizza", pizza);
+      this.$store.commit("Builder/clearState");
+    },
   },
   computed: {
     isButtonDisabled() {
@@ -76,7 +90,7 @@ export default {
       "selectedSauce",
       "ingredientsCount",
       "selectedSize",
-      "sauceSum"
+      "pizzaName",
     ]),
     ...mapGetters("Builder", ["finishSum"]),
   },

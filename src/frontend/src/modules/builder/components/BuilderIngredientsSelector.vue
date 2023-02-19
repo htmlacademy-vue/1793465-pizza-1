@@ -34,7 +34,7 @@
             >
               <span
                 draggable="true"
-                @dragstart="dragIngredient(index)"
+                @dragstart="dragIngredient(index, $event)"
                 :class="`filling filling--${INGREDIENTS[ingredient.name].name}`"
                 >{{ ingredient.name }}</span
               >
