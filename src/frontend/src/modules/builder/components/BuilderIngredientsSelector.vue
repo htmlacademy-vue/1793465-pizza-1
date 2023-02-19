@@ -84,11 +84,8 @@ export default {
     };
   },
   methods: {
-    dragIngredient(index) {
-      if (this.ingredientsCount[index] !== 3) {
-        this.$store.commit("Builder/IncrementIngredientsCount", index);
-      }
-      // dataTransfer.setData("ingredient", index);
+    dragIngredient(index, { dataTransfer }) {
+      dataTransfer.setData("ingredient", index);
     },
     decrement(index) {
       this.$store.commit("Builder/DecrementIngredientsCount", index);

@@ -64,21 +64,6 @@ export default {
     };
   },
   computed: {
-    // finishSum() {
-    //   return (
-    //     (this.selectedSauce.price +
-    //       this.selectedDough.price +
-    //       this.ingredientsSum) *
-    //     this.selectedSize.multiplier
-    //   );
-    // },
-    // ingredientsSum() {
-    //   let sum = 0;
-    //   this.ingredientsCount.forEach((item, index) => {
-    //     sum += pizza.ingredients[index].price * item;
-    //   });
-    //   return sum;
-    // },
     isButtonDisabled() {
       const ingSum = this.ingredientsCount.reduce((sum, item) => {
         return sum + item;
