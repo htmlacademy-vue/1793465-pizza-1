@@ -4,12 +4,11 @@
       <h2 class="title title--small sheet__title">Выберите ингредиенты</h2>
 
       <div class="sheet__content ingredients">
-
         <div class="ingredients__sauce">
           <p>Основной соус:</p>
 
           <label
-            v-for="sauce in sauces"
+            v-for="sauce in $store.state.Builder.sauces"
             :key="sauce.id"
             class="radio ingredients__input"
           >
@@ -17,8 +16,8 @@
               type="radio"
               name="sauce"
               :value="SAUCES[sauce.name].name"
-              :checked="sauce.id === selectedSauce.id"
-              @change="$emit('change', sauce)"
+              :checked="sauce.id === $store.state.Builder.selectedSauce.id"
+              @change="$store.commit('Builder/setSelectedSauce', sauce)"
             />
             <span>{{ sauce.name }}</span>
           </label>
@@ -29,13 +28,13 @@
 
           <ul class="ingredients__list">
             <li
-              v-for="(ingredient, index) in ingredients"
+              v-for="(ingredient, index) in $store.state.Builder.ingredients"
               :key="ingredient.id"
               class="ingredients__item"
             >
               <span
                 draggable="true"
-                @dragstart="dragIngredient(index, $event)"
+                @dragstart="dragIngredient(index)"
                 :class="`filling filling--${INGREDIENTS[ingredient.name].name}`"
                 >{{ ingredient.name }}</span
               >
@@ -66,9 +65,7 @@
               </div>
             </li>
           </ul>
-
         </div>
-
       </div>
     </div>
   </div>
@@ -76,23 +73,10 @@
 
 <script>
 import { INGREDIENTS, SAUCES } from "@/common/constants";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderIngredientsSelector",
-  props: {
-    ingredients: {
-      type: Array,
-    },
-    sauces: {
-      type: Array,
-    },
-    selectedSauce: {
-      type: Object,
-    },
-    ingredientsCount: {
-      type: Array,
-    },
-  },
   data() {
     return {
       INGREDIENTS,
@@ -100,15 +84,21 @@ export default {
     };
   },
   methods: {
-    dragIngredient(index, { dataTransfer }) {
-      dataTransfer.setData("ingredient", index);
+    dragIngredient(index) {
+      if (this.ingredientsCount[index] !== 3) {
+        this.$store.commit("Builder/IncrementIngredientsCount", index);
+      }
+      // dataTransfer.setData("ingredient", index);
     },
     decrement(index) {
-      this.$emit("decrement", index);
+      this.$store.commit("Builder/DecrementIngredientsCount", index);
     },
     increment(index) {
-      this.$emit("increment", index);
+      this.$store.commit("Builder/IncrementIngredientsCount", index);
     },
+  },
+  computed: {
+    ...mapState("Builder", ["ingredientsCount"]),
   },
 };
 </script>

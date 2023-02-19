@@ -1,6 +1,5 @@
 <template>
-  <main class="content">
-  </main>
+  <main class="content"></main>
 </template>
 <script>
 export default {

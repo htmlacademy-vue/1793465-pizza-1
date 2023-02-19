@@ -1,9 +1,6 @@
 <template>
   <div class="app-layout-main">
-    <AppLayoutHeader
-      :auth="auth"
-      :sum="sum"
-    />
+    <AppLayoutHeader :auth="auth" :sum="sum" />
     <div class="content">
       <slot />
     </div>

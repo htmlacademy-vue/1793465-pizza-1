@@ -4,21 +4,9 @@
       <form action="#" method="post">
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
-          <BuilderDoughSelector/>
-          <BuilderSizeSelector
-            :sizes="sizes"
-            :selectedSize="selectedSize"
-            @change="selectedSize = $event"
-          />
-          <BuilderIngredientsSelector
-            :ingredients="ingredients"
-            :ingredientsCount="ingredientsCount"
-            :sauces="sauces"
-            :selectedSauce="selectedSauce"
-            @change="selectedSauce = $event"
-            @decrement="decrement"
-            @increment="increment"
-          />
+          <BuilderDoughSelector />
+          <BuilderSizeSelector />
+          <BuilderIngredientsSelector />
 
           <div class="content__pizza">
             <label class="input">
@@ -30,35 +18,33 @@
                 placeholder="Введите название пиццы"
               />
             </label>
-            <BuilderPizzaView
-              :selectedSauce="sauceName"
-              :selectedDough="doughName"
-              :ingredientsCount="ingredientsCount"
-              @incrementCount="increment"
-            />
+            <BuilderPizzaView />
             <div class="content__result">
               <p>Итого: {{ finishSum }} ₽</p>
-              <button type="button" class="button" :disabled="isButtonDisabled" @click="sumInHeader = finishSum">Готовьте!</button>
+              <button
+                type="button"
+                class="button"
+                :disabled="isButtonDisabled"
+                @click="sumInHeader = finishSum"
+              >
+                Готовьте!
+              </button>
             </div>
           </div>
-
         </div>
-
       </form>
     </main>
   </div>
 </template>
 
 <script>
-import pizza from "@/static/pizza.json";
 import { INGREDIENTS, SAUCES, DOUGHS, SIZES } from "@/common/constants";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
-import { mapState } from 'vuex'
-import Vue from "vue";
-
+import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "index",
   components: {
@@ -69,43 +55,30 @@ export default {
   },
   data() {
     return {
-      ingredients: pizza.ingredients,
-      sauces: pizza.sauces,
-      sizes: pizza.sizes,
       DOUGHS,
       SAUCES,
       SIZES,
       INGREDIENTS,
-      selectedSauce: pizza.sauces[0],
-      sauceSum: 50,
-      selectedSize: pizza.sizes[0],
-      ingredientsCount: new Array(pizza.ingredients.length).fill(0),
       pizzaName: "",
       sumInHeader: 0,
     };
   },
   computed: {
-    sauceName() {
-      return SAUCES[this.selectedSauce.name].name;
-    },
-    doughName() {
-      return DOUGHS[this.selectedDough.name].name;
-    },
-    finishSum() {
-      return (
-        (this.selectedSauce.price +
-          this.selectedDough.price +
-          this.ingredientsSum) *
-        this.selectedSize.multiplier
-      );
-    },
-    ingredientsSum() {
-      let sum = 0;
-      this.ingredientsCount.forEach((item, index) => {
-        sum += pizza.ingredients[index].price * item;
-      });
-      return sum;
-    },
+    // finishSum() {
+    //   return (
+    //     (this.selectedSauce.price +
+    //       this.selectedDough.price +
+    //       this.ingredientsSum) *
+    //     this.selectedSize.multiplier
+    //   );
+    // },
+    // ingredientsSum() {
+    //   let sum = 0;
+    //   this.ingredientsCount.forEach((item, index) => {
+    //     sum += pizza.ingredients[index].price * item;
+    //   });
+    //   return sum;
+    // },
     isButtonDisabled() {
       const ingSum = this.ingredientsCount.reduce((sum, item) => {
         return sum + item;
@@ -113,19 +86,18 @@ export default {
 
       return ingSum === 0 || this.pizzaName.length === 0;
     },
-    ...mapState("Builder", ["selectedDough"]),
-  },
-  methods: {
-    decrement(index) {
-      Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] - 1);
-    },
-    increment(index) {
-      Vue.set(this.ingredientsCount, index, this.ingredientsCount[index] + 1);
-    },
+    ...mapState("Builder", [
+      "selectedDough",
+      "selectedSauce",
+      "ingredientsCount",
+      "selectedSize",
+      "sauceSum"
+    ]),
+    ...mapGetters("Builder", ["finishSum"]),
   },
   watch: {
     sumInHeader(newValue) {
-      this.$emit('changeValue', newValue);
+      this.$emit("changeValue", newValue);
     },
   },
 };

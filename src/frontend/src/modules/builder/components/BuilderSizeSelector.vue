@@ -5,7 +5,7 @@
 
       <div class="sheet__content diameter">
         <label
-          v-for="size in sizes"
+          v-for="size in $store.state.Builder.sizes"
           :key="size.id"
           :class="`diameter__input diameter__input--${SIZES[size.id].name}`"
         >
@@ -14,8 +14,8 @@
             name="diameter"
             :value="SIZES[size.id].name"
             class="visually-hidden"
-            :checked="size.id === selectedSize.id"
-            @change="$emit('change', size)"
+            :checked="size.id === $store.state.Builder.selectedSize.id"
+            @change="$store.commit('Builder/setSelectedSize', size)"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -34,16 +34,14 @@ export default {
     },
     selectedSize: {
       type: Object,
-    }
+    },
   },
   data() {
     return {
       SIZES,
-    }
+    };
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

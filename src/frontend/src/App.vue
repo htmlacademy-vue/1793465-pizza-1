@@ -1,6 +1,6 @@
 <template>
   <AppLayout :auth="auth" :sum="sum">
-    <router-view @changeValue="sum = $event"/>
+    <router-view @changeValue="sum = $event" />
   </AppLayout>
 </template>
 

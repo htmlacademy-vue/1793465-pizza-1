@@ -1,7 +1,7 @@
 <template>
   <div class="content__constructor">
     <div
-      :class="`pizza pizza--foundation--${selectedDough}-${selectedSauce}`"
+      :class="`pizza pizza--foundation--${doughName}-${sauceName}`"
       @drop="dropIngredient"
       @dragover.prevent
     >
@@ -13,23 +13,19 @@
 </template>
 
 <script>
-import { INGREDIENTS } from "@/common/constants";
+import { INGREDIENTS, DOUGHS, SAUCES } from "@/common/constants";
 import pizza from "@/static/pizza.json";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderPizzaView",
-  props: {
-    selectedDough: {
-      type: String,
-    },
-    selectedSauce: {
-      type: String,
-    },
-    ingredientsCount: {
-      type: Array,
-    },
-  },
+
   computed: {
+    ...mapState("Builder", [
+      "selectedDough",
+      "selectedSauce",
+      "ingredientsCount",
+    ]),
     ingredientClasses() {
       let arrIngredients = [];
       this.ingredientsCount.forEach((elem, index) => {
@@ -48,10 +44,18 @@ export default {
       });
       return arrIngredients;
     },
+    doughName() {
+      return DOUGHS[this.selectedDough.name].name;
+    },
+    sauceName() {
+      return SAUCES[this.selectedSauce.name].name;
+    },
   },
   methods: {
     dropIngredient({ dataTransfer }) {
       const data = dataTransfer.getData("ingredient");
+      console.log(data);
+
       this.$emit("incrementCount", data);
     },
   },

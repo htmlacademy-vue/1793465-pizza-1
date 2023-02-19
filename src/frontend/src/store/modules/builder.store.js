@@ -1,8 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
 import pizza from "@/static/pizza.json";
-
-Vue.use(Vuex);
 
 const state = {
   doughs: pizza.dough,
@@ -16,11 +13,11 @@ const state = {
   ingredientsCount: new Array(pizza.ingredients.length).fill(0),
 };
 const getters = {
-  finishSum(state) {
+  finishSum(state, getters) {
     return (
       (state.selectedSauce.price +
         state.selectedDough.price +
-        state.ingredientsSum) *
+        getters.ingredientsSum) *
       state.selectedSize.multiplier
     );
   },
