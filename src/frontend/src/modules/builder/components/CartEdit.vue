@@ -17,13 +17,24 @@
               :key="pizza.pizzaName"
               class="cart-list__item">
               <div class="product cart-list__product">
-                <img src="@/assets/img/product.svg" class="product__img" width="56" height="56" alt="Капричоза">
+                <img
+                  src="@/assets/img/product.svg"
+                  class="product__img"
+                  width="56"
+                  height="56"
+                  alt="Капричоза"
+                />
                 <div class="product__text">
                   <h2>{{ pizza.pizzaName }}</h2>
                   <ul>
-                    <li>{{ pizza.selectedSize.name }}, на тонком тесте</li>
+                    <li v-if="pizza.selectedDough.name === 'Тонкое'">
+                      {{ pizza.selectedSize.name }}, на тонком тесте
+                    </li>
+                    <li v-if="pizza.selectedDough.name === 'Толстое'">
+                      {{ pizza.selectedSize.name }}, на толстом тесте
+                    </li>
                     <li>Соус: {{ pizza.selectedSauce.name }}</li>
-                    <li>Начинка: грибы, лук, ветчина, пармезан, ананас</li>
+                    <li>Начинка: {{ pizza.ingredientsName }}</li>
                   </ul>
                 </div>
               </div>
@@ -39,7 +50,7 @@
               </div>
 
               <div class="cart-list__price">
-                <b>782 ₽</b>
+                <b>{{ pizza.price }} ₽</b>
               </div>
 
               <div class="cart-list__button">

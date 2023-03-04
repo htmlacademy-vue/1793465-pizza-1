@@ -72,6 +72,8 @@ export default {
         ingredientsCount: this.ingredientsCount,
         selectedSize: this.selectedSize,
         pizzaName: this.pizzaName,
+        price: this.finishSum,
+        ingredientsName: "",
       };
       this.$store.commit("Cart/addPizza", pizza);
       this.$store.commit("Builder/clearState");
