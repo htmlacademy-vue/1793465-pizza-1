@@ -1,6 +1,6 @@
 <template>
   <div class="app-layout-main">
-    <AppLayoutHeader :auth="auth" :sum="sum" />
+    <AppLayoutHeader :auth="auth" />
     <div class="content">
       <slot />
     </div>
@@ -15,9 +15,6 @@ export default {
     AppLayoutHeader,
   },
   props: {
-    sum: {
-      type: Number,
-    },
     auth: {
       type: Boolean,
       required: true,

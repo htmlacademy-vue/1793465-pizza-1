@@ -11,7 +11,7 @@
       </a>
     </div>
     <div class="header__cart">
-      <router-link to="/cart">{{ sum }} ₽</router-link>
+      <router-link to="/cart">{{ $store.state.Cart.pizzasSum }} ₽</router-link>
     </div>
     <div class="header__user">
       <router-link v-if="auth" to="/login" class="header__login"
@@ -30,9 +30,6 @@ export default {
     auth: {
       type: Boolean,
       required: true,
-    },
-    sum: {
-      type: Number,
     },
   },
 };

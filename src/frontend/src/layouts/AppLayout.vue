@@ -1,5 +1,5 @@
 <template>
-  <component :is="layout" :auth="auth" :sum="sum">
+  <component :is="layout" :auth="auth">
     <slot />
   </component>
 </template>
@@ -13,9 +13,6 @@ export default {
     auth: {
       type: Boolean,
       required: true,
-    },
-    sum: {
-      type: Number,
     },
   },
   computed: {

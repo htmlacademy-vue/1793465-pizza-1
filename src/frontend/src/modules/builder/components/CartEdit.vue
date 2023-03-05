@@ -7,13 +7,16 @@
             <h1 class="title title--big">Корзина</h1>
           </div>
 
-          <!-- <div class="sheet cart__empty">
+          <div
+            v-if="!$store.state.Cart.pizzas.length"
+            class="sheet cart__empty"
+          >
             <p>В корзине нет ни одного товара</p>
-          </div> -->
+          </div>
 
-          <ul class="cart-list sheet">
+          <ul v-else class="cart-list sheet">
             <li
-              v-for="pizza in $store.state.Cart.pizzas"
+              v-for="(pizza, index) in $store.state.Cart.pizzas"
               :key="pizza.pizzaName"
               class="cart-list__item">
               <div class="product cart-list__product">
@@ -27,11 +30,14 @@
                 <div class="product__text">
                   <h2>{{ pizza.pizzaName }}</h2>
                   <ul>
-                    <li v-if="pizza.selectedDough.name === 'Тонкое'">
-                      {{ pizza.selectedSize.name }}, на тонком тесте
-                    </li>
-                    <li v-if="pizza.selectedDough.name === 'Толстое'">
-                      {{ pizza.selectedSize.name }}, на толстом тесте
+                    <li>
+                      {{ pizza.selectedSize.name }}, на
+                      {{
+                        pizza.selectedDough.name === "Тонкое"
+                          ? "тонком"
+                          : "толстом"
+                      }}
+                      тесте
                     </li>
                     <li>Соус: {{ pizza.selectedSauce.name }}</li>
                     <li>Начинка: {{ pizza.ingredientsName }}</li>
@@ -40,17 +46,17 @@
               </div>
 
               <div class="counter cart-list__counter">
-                <button type="button" class="counter__button counter__button--minus">
+                <button type="button" class="counter__button counter__button--minus" @click="$store.commit('Cart/decrementPizzaCount', index)">
                   <span class="visually-hidden">Меньше</span>
                 </button>
-                <input type="text" name="counter" class="counter__input" value="1">
-                <button type="button" class="counter__button counter__button--plus counter__button--orange">
+                <input type="text" name="counter" class="counter__input" :value="$store.state.Cart.pizzasCounts[index]">
+                <button type="button" class="counter__button counter__button--plus counter__button--orange" @click="$store.commit('Cart/incrementPizzaCount', index)">
                   <span class="visually-hidden">Больше</span>
                 </button>
               </div>
 
               <div class="cart-list__price">
-                <b>{{ pizza.price }} ₽</b>
+                <b>{{ pizzasPrices[index] }} ₽</b>
               </div>
 
               <div class="cart-list__button">
@@ -194,7 +200,12 @@
   </main>
 </template>
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "CartEdit",
+  computed: {
+    ...mapGetters("Cart", ["pizzasPrices"]),
+  }
 };
 </script>
