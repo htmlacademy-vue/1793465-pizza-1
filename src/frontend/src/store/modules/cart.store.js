@@ -6,6 +6,7 @@ const state = {
   pizzas: [],
   pizzasSum: 0,
   pizzasCounts: [],
+  oldPizzaIndex: null,
 };
 const getters = {
   pizzasPrices(state) {
@@ -35,6 +36,12 @@ const mutations = {
       state.pizzas.splice(index, 1);
       state.pizzasCounts.splice(index, 1);
     }
+  },
+  changeOldPizzaId(state, index) {
+    state.oldPizzaIndex = index;
+  },
+  deleteOldPizza(state, index) {
+    state.pizzas.splice(index, 1);
   },
 };
 const actions = {};

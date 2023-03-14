@@ -60,7 +60,7 @@
               </div>
 
               <div class="cart-list__button">
-                <button type="button" class="cart-list__edit">Изменить</button>
+                <button type="button" class="cart-list__edit" @click="changePizza(index)">Изменить</button>
               </div>
             </li>
           </ul>
@@ -184,7 +184,7 @@
       </main>
       <section class="footer">
         <div class="footer__more">
-          <a href="#" class="button button--border button--arrow">Хочу еще одну</a>
+          <router-link class="button button--border button--arrow" to="/">Хочу еще одну</router-link>
         </div>
         <p class="footer__text">Перейти к конструктору<br>чтоб собрать ещё одну пиццу</p>
         <div class="footer__price">
@@ -200,12 +200,36 @@
   </main>
 </template>
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "CartEdit",
   computed: {
     ...mapGetters("Cart", ["pizzasPrices"]),
-  }
+    ...mapState("Cart", ["pizzas"]),
+  },
+  methods: {
+    changePizza(index) {
+      this.$router.push({ name: "IndexHome" });
+      this.$store.commit(
+        "Builder/setSelectedDough",
+        this.pizzas[index].selectedDough
+      );
+      this.$store.commit(
+        "Builder/setSelectedSauce",
+        this.pizzas[index].selectedSauce
+      );
+      this.$store.commit(
+        "Builder/setSelectedSize",
+        this.pizzas[index].selectedSize
+      );
+      this.$store.commit(
+        "Builder/setIngredientsCount",
+        this.pizzas[index].ingredientsCount
+      );
+      this.$store.commit("Builder/setPizzaName", this.pizzas[index].pizzaName);
+      this.$store.commit("Cart/changeOldPizzaId", this.pizzas[index]);
+    },
+  },
 };
 </script>

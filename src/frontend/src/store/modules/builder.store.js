@@ -56,6 +56,9 @@ const mutations = {
     state.selectedSize = pizza.sizes[0];
     state.ingredientsCount = new Array(pizza.ingredients.length).fill(0);
   },
+  setIngredientsCount(state, ingredientsCount) {
+    state.ingredientsCount = ingredientsCount;
+  },
 };
 const actions = {};
 

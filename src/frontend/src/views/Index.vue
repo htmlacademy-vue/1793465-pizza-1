@@ -75,8 +75,10 @@ export default {
         price: this.finishSum,
         ingredientsName: "",
       };
+      this.$store.commit("Cart/deleteOldPizza", this.oldPizzaIndex);
       this.$store.commit("Cart/addPizza", pizza);
       this.$store.commit("Builder/clearState");
+      this.$store.commit("Cart/changeOldPizzaId", null);
     },
   },
   computed: {
@@ -94,6 +96,7 @@ export default {
       "selectedSize",
       "pizzaName",
     ]),
+    ...mapState("Cart", ["oldPizzaIndex", "pizzas"]),
     ...mapGetters("Builder", ["finishSum"]),
   },
   watch: {
