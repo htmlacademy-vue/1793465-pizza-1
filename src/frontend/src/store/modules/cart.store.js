@@ -1,18 +1,25 @@
 import pizza from "@/static/pizza.json";
+import misc from "@/static/misc.json";
 import Vue from "vue";
 
 const state = {
   ingredients: pizza.ingredients,
   pizzas: [],
-  pizzasSum: 0,
   pizzasCounts: [],
   oldPizzaIndex: null,
+  miscGoods: misc,
+  goodsCounts: Array(misc.length).fill(0),
 };
 const getters = {
   pizzasPrices(state) {
     return state.pizzas.map((element, index) => {
       return element.price * state.pizzasCounts[index];
     });
+  },
+  pizzasSum(state, getters) {
+    return getters.pizzasPrices.reduce((sum, item) => {
+      return sum + item;
+    }, 0);
   },
 };
 const mutations = {
@@ -23,7 +30,6 @@ const mutations = {
       }
     });
     pizza.ingredientsName = pizza.ingredientsName.slice(0, -2);
-    state.pizzasSum += pizza.price;
     state.pizzasCounts.push(1);
     state.pizzas.push(pizza);
   },
@@ -36,6 +42,12 @@ const mutations = {
       state.pizzas.splice(index, 1);
       state.pizzasCounts.splice(index, 1);
     }
+  },
+  incrementGoodCount(state, index) {
+    Vue.set(state.goodsCounts, index, state.goodsCounts[index] + 1);
+  },
+  decrementGoodCount(state, index) {
+    Vue.set(state.goodsCounts, index, state.goodsCounts[index] - 1);
   },
   changeOldPizzaId(state, index) {
     state.oldPizzaIndex = index;
